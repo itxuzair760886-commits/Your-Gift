@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Gift From Uzair 🎆</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box;font-family:'Poppins',sans-serif;}
+body{
+    height:100vh;
+    width:100vw;
+    overflow:hidden;
+    background:linear-gradient(to top, #0f2027, #203a43, #2c5364);
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    flex-direction:column;
+    color:#fff;
+    text-align:center;
+}
+#container{
+    z-index:5;
+}
+#nameInput{
+    padding:12px 18px;
+    border-radius:25px;
+    border:none;
+    margin-top:20px;
+    font-size:16px;
+    text-align:center;
+}
+button{
+    margin-top:15px;
+    padding:12px 35px;
+    border:none;
+    border-radius:30px;
+    background:#ffb347;
+    color:#222;
+    font-size:16px;
+    font-weight:600;
+    cursor:pointer;
+    transition:0.3s;
+}
+button:hover{transform:scale(1.05);}
+#messageBox{
+    position:absolute;
+    top:50%;
+    left:50%;
+    transform:translate(-50%, -50%);
+    max-width:600px;
+    padding:20px 30px;
+    background:rgba(0,0,0,0.5);
+    border-radius:20px;
+    display:none;
+    font-size:20px;
+    line-height:2;
+    color:#fff;
+    text-align:center;
+    z-index:6;
+}
+.firework{
+    position:absolute;
+    width:6px;
+    height:6px;
+    border-radius:50%;
+    pointer-events:none;
+    animation:explode 1s ease-out forwards;
+}
+@keyframes explode{
+    0%{opacity:1; transform:scale(1);}
+    100%{opacity:0; transform:scale(4);}
+}
+.flower{
+    position:fixed;
+    top:-10px;
+    font-size:20px;
+    animation:fall linear infinite;
+    opacity:0.9;
+}
+@keyframes fall{
+    to{
+        transform:translateY(110vh) rotate(360deg);
+        opacity:0;
+    }
+}
+.word{
+    display:inline-block;
+    opacity:0;
+    transform:translateY(20px);
+    animation:fadeInWord 0.6s forwards;
+    margin-right:5px;
+    color:#fff;
+    text-shadow:0 0 6px #ff3c6e, 0 0 10px #ffb347;
+}
+@keyframes fadeInWord{
+    to{opacity:1; transform:translateY(0);}
+}
+</style>
+</head>
+<body>
+
+<div id="container">
+    <h1>🎆 Ek Chhota Sa Surprise 🎆</h1>
+    <input type="text" id="nameInput" placeholder="Apna naam likho">
+    <br>
+    <button onclick="openGift()">Open Your Gift 💌</button>
+</div>
+
+<div id="messageBox"></div>
+
+<!-- Soft Indian Song -->
+<audio id="bgMusic" loop>
+<source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" type="audio/mpeg">
+</audio>
+
+<script>
+let fireworksInterval;
+let flowersInterval;
+
+function openGift(){
+    const name = document.getElementById("nameInput").value || "Friend";
+
+    // Hide the input + button
+    document.getElementById("container").style.display = 'none';
+
+    const messageBox = document.getElementById("messageBox");
+    messageBox.innerHTML = '';
+    messageBox.style.display = 'block';
+
+    // Stop previous intervals
+    if(fireworksInterval) clearInterval(fireworksInterval);
+    if(flowersInterval) clearInterval(flowersInterval);
+
+    const lines = [
+        [`Dear`, `${name} 🎉💖`],
+        ['Zindagi', 'ke', 'har', 'pal', 'ko', 'mehsoos', 'karo 🌸✨'],
+        ['Muskurate', 'raho', 'aur', 'chhoti', 'chhoti', 'khushiyon', 'ko', 'celebrate', 'karo 🎈🌹'],
+        ['Yeh', 'chhota', 'sa', 'gift', 'tumhare', 'liye', 'hai 🎁💌'],
+        ['Ek', 'pyara', 'sa', 'reminder', 'ke', 'tum', 'bohot', 'khaas', 'ho 💖😍'],
+        ['Ye', 'Piyara', 'SA', 'Gift', 'Uzair', 'Ki', 'Traf', 'Se ❤️🎀']
+    ];
+
+    let delay = 0;
+    lines.forEach(line=>{
+        const lineDiv = document.createElement('div');
+        lineDiv.style.marginBottom = "12px";
+        line.forEach(word=>{
+            const span = document.createElement('span');
+            span.className='word';
+            span.style.animationDelay = delay + 's';
+            span.innerText = word;
+            lineDiv.appendChild(span);
+            delay += 0.3;
+        });
+        messageBox.appendChild(lineDiv);
+        delay += 0.2;
+    });
+
+    // Fireworks
+    fireworksInterval = setInterval(createFirework, 250);
+    // Flowers
+    flowersInterval = setInterval(startFlowers, 200);
+    // Play music
+    const music = document.getElementById("bgMusic");
+    music.currentTime = 0;
+    music.play();
+}
+
+function createFirework(){
+    for(let i=0;i<20;i++){
+        const f = document.createElement("div");
+        f.className="firework";
+        f.style.background=`hsl(${Math.random()*360},100%,60%)`;
+        f.style.left=Math.random()*100+"vw";
+        f.style.top=Math.random()*80+"vh";
+        document.body.appendChild(f);
+        setTimeout(()=>f.remove(),1000);
+    }
+}
+
+function startFlowers(){
+    const symbols = ["🌸","🌹","💐","🌷","🌺","🎀"];
+    const f = document.createElement("div");
+    f.className="flower";
+    f.innerText = symbols[Math.floor(Math.random()*symbols.length)];
+    f.style.left = Math.random()*100 + "vw";
+    f.style.animationDuration = (Math.random()*5+4)+"s";
+    f.style.fontSize = (Math.random()*18 + 16) + "px";
+    document.body.appendChild(f);
+    setTimeout(()=>f.remove(),12000);
+}
+</script>
+
+</body>
+</html>
